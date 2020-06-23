@@ -7,3 +7,10 @@ My venture into Web Assembly
 * Blazor and what WebAssembly means for the future of the web
 
 
+### Useful Links
+
+[WASM Fiddle](https://wasdk.github.io/WasmFiddle/)
+
+[WebAssembly Use Cases](https://webassembly.org/docs/use-cases/)
+
+[High Level Concepts on WebAssembly from Mozilla](https://developer.mozilla.org/en-US/docs/WebAssembly/Concepts)
