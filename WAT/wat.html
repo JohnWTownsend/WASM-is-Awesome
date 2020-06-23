@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+</head>
+
+<body>
+    <div id="output">
+    </div>
+    <script>
+        var WASMFuncs;
+        WebAssembly.instantiateStreaming(fetch('awesomeFunctions.wasm'))
+            .then(obj => {
+                let elem = document.querySelector("body");
+                WASMFuncs = obj.instance.exports;
+                let result = WASMFuncs.square(25);
+                let result2 = WASMFuncs.fib(45);
+                elem.innerHTML = result;
+                elem.innerHTML += "\r\n" + result2
+            });
+    </script>
+</body>
+</html>

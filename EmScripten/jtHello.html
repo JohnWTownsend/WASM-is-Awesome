@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+
+<head>
+
+</head>
+
+<body>
+    <div id="jsFibOutput">
+    </div>
+    <div id="cFibOutput">
+
+    </div>
+    </div>
+    <div id="watFibOutput">
+
+    </div>
+
+    <script src="helloworld.js"></script>
+    <script type="text/javascript">
+        var WASMFuncs;
+        WebAssembly.instantiateStreaming(fetch('../WAT/awesomeFunctions.wasm'))
+            .then(obj => {
+                // let elem = document.querySelector("body");
+                WASMFuncs = obj.instance.exports;
+                // let result = WASMFuncs.square(25);
+                // let result2 = WASMFuncs.fib(45);
+                // elem.innerHTML = result;
+                // elem.innerHTML += "\r\n" + result2
+            });
+        Module.onRuntimeInitialized = () => {
+            const square = Module.cwrap('square', 'number', ['number']);
+            const fib = Module.cwrap('fib', 'number', ['number']);
+
+            fibChain(jsFib, "JS", "#jsFibOutput")
+                .then(() => { fibChain(_fib, "C", "#cFibOutput")
+                    .then(() => { fibChain(WASMFuncs.fib, "WAT", "#watFibOutput")})
+                });
+        }
+
+        function fibChain(fibChainFunc, name, selector) {
+            return new Promise(re => {
+                (() => {
+                    let fibMax = 40;
+                    let lastTime = new Date();
+                    let outputDiv = document.querySelector(selector);
+                    let elem = document.createElement('div');
+                    elem.innerHTML = `${name} -- GO!`;
+                    outputDiv.appendChild(elem);
+
+                    let p = Promise.resolve();
+
+                    for (let i = 0; i <= fibMax; i++) {
+                        p = p.then(() => {
+                            return new Promise(resolve => {
+                                let result = fibChainFunc(i);
+                                let elem = document.createElement('div');
+                                let timeSinceLast = new Date() - lastTime;
+                                elem.innerHTML = `${i}: ${result} ${timeSinceLast}ms`;
+                                outputDiv.appendChild(elem);
+                                resolve();
+                            });
+                        }).then(() => { return new Promise(r => setTimeout(r, 10)) });
+                        if(i == fibMax)
+                        p = p.then(()=> re());
+                    }
+                })();
+            });
+        }
+        function jsFib(number) {
+            if (number == 0)
+                return 0;
+            if (number == 1)
+                return 1;
+
+            return jsFib(number - 1) + jsFib(number - 2);
+        }
+    </script>
+</body>
+
+</html>
