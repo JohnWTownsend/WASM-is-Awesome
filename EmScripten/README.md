@@ -7,12 +7,14 @@ EmScripten is a tool used to compile C/C++/Rust to WebAssembly and additionally 
 
 In this demonstration we will be using C because it is what I was raised on. 
 
-Once you have your C code all ready, you will want to add incluce the 
+Once you have your C code all ready, you will want to add the 
 
-  *#include <emscripten.h>* library reference and 
+  `#include <emscripten.h>` library reference and 
 
-  *EMSCRIPTEN_KEEPALIVE* to any functions you wish to export
+  `EMSCRIPTEN_KEEPALIVE` to any functions you wish to export
   
+to compile we use emcc
+`emcc -O3 -s WASM=1 -s EXTRA_EXPORTED_RUNTIME_METHODS='["cwrap"]' <yourCProgram>.c -o <yourOutputJs>.js`
   
 
 ## Referencing your C functions from JS
