@@ -25,3 +25,15 @@ Once you have your C code all ready, you will want to add incluce the
 
 > Note: Both of these are specific to EmScripten and don't have an real ties to WASM.
 
+
+
+
+### Useful Links
+
+[EmScripten Official Get Started](https://emscripten.org/docs/getting_started/downloads.html)
+
+[Tutorial from Mozilla](https://developer.mozilla.org/en-US/docs/WebAssembly/C_to_wasm)
+
+[Communication between JS and WASM](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly)
+
+
